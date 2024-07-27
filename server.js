@@ -38,7 +38,7 @@ app.get('/api/tasks', async (req, res) => {
     res.json(tasks);
   } catch (err) {
     console.error('Error fetching tasks:', err);
-    res.status(500).json({ error: 'Error fetching tasks' });
+    res.status(500).json({ error: 'Error fetching tasks', details: err.message });
   }
 });
 
@@ -49,7 +49,7 @@ app.post('/api/tasks', async (req, res) => {
     res.json(newTask);
   } catch (err) {
     console.error('Error adding task:', err);
-    res.status(500).json({ error: 'Error adding task' });
+    res.status(500).json({ error: 'Error adding task', details: err.message });
   }
 });
 
@@ -59,7 +59,7 @@ app.delete('/api/tasks/:id', async (req, res) => {
     res.json({ message: 'Task deleted' });
   } catch (err) {
     console.error('Error deleting task:', err);
-    res.status(500).json({ error: 'Error deleting task' });
+    res.status(500).json({ error: 'Error deleting task', details: err.message });
   }
 });
 
