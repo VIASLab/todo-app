@@ -1,21 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List App</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const taskForm = document.getElementById('task-form');
+      const taskInput = document.getElementById('task-input');
+      const taskList = document.getElementById('task-list');
+
+      // Cargar tareas desde el servidor
+      fetch('http://localhost:5000/api/tasks')
+        .then(response => response.json())
+        .then(tasks => {
+          tasks.forEach(task => {
+            const taskItem = document.createElement('li');
+            taskItem.textContent = task.text;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function() {
+              fetch(`http://localhost:5000/api/tasks/${task._id}`, { method: 'DELETE' })
+                .then(() => taskList.removeChild(taskItem));
+            });
+
+            taskItem.appendChild(deleteButton);
+            taskList.appendChild(taskItem);
+          });
+        });
+
+      // Añadir nueva tarea
+      taskForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const taskText = taskInput.value;
+
+        fetch('http://localhost:5000/api/tasks', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text: taskText })
+        })
+        .then(response => response.json())
+        .then(task => {
+          const taskItem = document.createElement('li');
+          taskItem.textContent = task.text;
+
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.addEventListener('click', function() {
+            fetch(`http://localhost:5000/api/tasks/${task._id}`, { method: 'DELETE' })
+              .then(() => taskList.removeChild(taskItem));
+          });
+
+          taskItem.appendChild(deleteButton);
+          taskList.appendChild(taskItem);
+        });
+
+        taskInput.value = '';
+      });
+    });
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h1>lista de tareas</h1>
-        <form id="task-form">
-            <input type="text" id="task-input" placeholder="Add a new task" required>
-            <button type="submit">agregar tarea</button>
-        </form>
-        <ul id="task-list"></ul>
-    </div>
-    <script src="app.js"></script>
-</body>
-</html>
- 
+  <h1>Todo App</h1>
+  <form id="task-form">
+    <input type="text" id="task-input" placeholder="Enter a task">
+    <button type="submit">Add Task</button>
+  </form>
+  <ul id="task
