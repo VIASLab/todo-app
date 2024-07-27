@@ -3,8 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
+    // Actualiza la URL del backend
+    const backendUrl = 'https://todo-app-backend-jiht.onrender.com';
+
     // Cargar tareas desde el servidor
-    fetch('http://localhost:5000/api/tasks')
+    fetch(`${backendUrl}/api/tasks`)
         .then(response => response.json())
         .then(tasks => {
             tasks.forEach(task => {
@@ -14,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
                 deleteButton.addEventListener('click', function() {
-                    fetch(`http://localhost:5000/api/tasks/${task._id}`, { method: 'DELETE' })
+                    fetch(`${backendUrl}/api/tasks/${task._id}`, { method: 'DELETE' })
                         .then(() => taskList.removeChild(taskItem));
                 });
 
@@ -29,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const taskText = taskInput.value;
 
-        fetch('http://localhost:5000/api/tasks', {
+        fetch(`${backendUrl}/api/tasks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.addEventListener('click', function() {
-                fetch(`http://localhost:5000/api/tasks/${task._id}`, { method: 'DELETE' })
+                fetch(`${backendUrl}/api/tasks/${task._id}`, { method: 'DELETE' })
                     .then(() => taskList.removeChild(taskItem));
             });
 
