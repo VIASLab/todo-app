@@ -42,6 +42,5 @@ app.delete('/api/tasks/:id', async (req, res) => {
   res.json({ message: 'Task deleted' });
 });
 
-// Iniciar el servidor
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// Ruta raíz para comprobar el estado del servidor
+app.get('/',
