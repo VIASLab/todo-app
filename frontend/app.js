@@ -6,10 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Actualiza la URL del backend
     const backendUrl = 'https://todo-app-backend-jiht.onrender.com';
 
+    console.log('Backend URL:', backendUrl);
+
     // Cargar tareas desde el servidor
     fetch(`${backendUrl}/api/tasks`)
         .then(response => response.json())
         .then(tasks => {
+            console.log('Tasks fetched:', tasks);
             tasks.forEach(task => {
                 const taskItem = document.createElement('li');
                 taskItem.textContent = task.text;
@@ -24,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 taskItem.appendChild(deleteButton);
                 taskList.appendChild(taskItem);
             });
-        });
+        })
+        .catch(error => console.error('Error fetching tasks:', error));
 
     // Añadir nueva tarea
     taskForm.addEventListener('submit', function(e) {
@@ -41,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(task => {
+            console.log('Task added:', task);
             const taskItem = document.createElement('li');
             taskItem.textContent = task.text;
 
@@ -53,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             taskItem.appendChild(deleteButton);
             taskList.appendChild(taskItem);
-        });
+        })
+        .catch(error => console.error('Error adding task:', error));
 
         taskInput.value = '';
     });
