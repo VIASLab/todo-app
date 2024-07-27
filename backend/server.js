@@ -9,9 +9,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Conectar a MongoDB
-mongoose.connect('mongodb://localhost:27017/todo-app', {
+const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo-app';
+mongoose.connect(dbURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
