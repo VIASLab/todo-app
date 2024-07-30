@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 // Configurar CORS para permitir solicitudes desde tu frontend
 app.use(cors({
-  origin: 'https://tu-frontend-url.com' // Reemplaza con la URL de tu frontend
+  origin: 'https://viaslab.github.io/todo-app/' // Reemplaza con la URL de tu frontend
 }));
 
 // Conectar a MongoDB
