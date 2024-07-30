@@ -9,12 +9,14 @@ app.use(bodyParser.json());
 
 // Configurar CORS para permitir solicitudes desde tu frontend
 app.use(cors({
-  origin: 'https://viaslab.github.io/todo-app/' // Reemplaza con la URL de tu frontend
+  origin: 'https://tu-frontend-url.com' // Reemplaza con la URL de tu frontend
 }));
 
 // Conectar a MongoDB
 const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo-app';
 mongoose.connect(dbURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
   serverSelectionTimeoutMS: 30000, // Aumenta el timeout a 30 segundos
 })
   .then(() => console.log('MongoDB connected...'))
