@@ -3,14 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    // Actualiza la URL del backend
-    const backendUrl = 'https://todo-app-backend-jiht.onrender.com';
+    // Actualiza la URL del backend para apuntar a Render
+    const backendUrl = 'https://todo-app-backend-jiht.onrender.com'; // Reemplaza con la URL de tu backend en Render
 
     console.log('Backend URL:', backendUrl);
 
     // Cargar tareas desde el servidor
     fetch(`${backendUrl}/api/tasks`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(tasks => {
             console.log('Tasks fetched:', tasks);
             tasks.forEach(task => {
@@ -43,7 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ text: taskText })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(task => {
             console.log('Task added:', task);
             const taskItem = document.createElement('li');
