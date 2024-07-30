@@ -7,7 +7,7 @@ const app = express();
 // Middleware para body-parser
 app.use(bodyParser.json());
 
-// Configurar CORS para permitir solicitudes desde tu frontend
+// Configurar CORS para permitir solicitudes desde tu frontend en GitHub Pages
 app.use(cors({
   origin: 'https://viaslab.github.io' // Reemplaza con la URL de tu frontend
 }));
