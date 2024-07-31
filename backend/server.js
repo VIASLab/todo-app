@@ -13,16 +13,17 @@ app.use(cors({
 }));
 
 // Conectar a MongoDB
-const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo-app';
+const dbURI = process.env.MONGODB_URI || 'mongodb+srv://ortiso:W9upcFZpSMi50ssw@ac-af0bj1v.gcdrtgg.mongodb.net/MONGODB_URI?retryWrites=true&w=majority';
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000, // Aumenta el timeout a 30 segundos
-  socketTimeoutMS: 45000 // Aumenta el socket timeout a 45 segundos
+  serverSelectionTimeoutMS: 50000, // Aumenta el timeout a 50 segundos
+  socketTimeoutMS: 60000 // Aumenta el socket timeout a 60 segundos
 })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
+    process.exit(1); // Salir si no se puede conectar a la base de datos
   });
 
 // Definir el modelo de Tarea
@@ -71,5 +72,5 @@ app.get('/', (req, res) => {
 });
 
 // Iniciar el servidor
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
