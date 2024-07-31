@@ -1,24 +1,29 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0f2f5;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    color: #333;
 }
 
 .container {
-    background: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    width: 300px;
+    background: #ffffff;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #5721cc;
 }
 
 form {
@@ -29,37 +34,54 @@ form {
 input[type="text"] {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 16px;
 }
 
 button {
     padding: 10px 20px;
     border: none;
-    background-color: #28a745;
+    background-color: #5721cc;
     color: white;
     cursor: pointer;
     border-radius: 4px;
     margin-left: 10px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #4518a0;
 }
 
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
-    background: #f4f4f4;
+    background: #ffffff;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+li button {
+    background-color: #dc3545;
+    padding: 5px 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+li button:hover {
+    background-color: #c82333;
+}
