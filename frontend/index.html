@@ -1,94 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App</title>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const taskForm = document.getElementById('task-form');
-      const taskInput = document.getElementById('task-input');
-      const taskList = document.getElementById('task-list');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskForm = document.getElementById('task-form');
+            const taskInput = document.getElementById('task-input');
+            const taskList = document.getElementById('task-list');
 
-      // Asegúrate de que la URL del backend apunte a Render
-      const backendUrl = 'https://todo-app-backend-jiht.onrender.com'; // Reemplaza con la URL de tu backend en Render
+            // Cargar tareas desde el servidor
+            fetch('https://todo-app-backend-jiht.onrender.com/api/tasks')
+                .then(response => response.json())
+                .then(tasks => {
+                    tasks.forEach(task => {
+                        const taskItem = document.createElement('li');
+                        taskItem.textContent = task.text;
 
-      console.log('Backend URL:', backendUrl);
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.addEventListener('click', function() {
+                            fetch(`https://todo-app-backend-jiht.onrender.com/api/tasks/${task._id}`, { method: 'DELETE' })
+                                .then(() => taskList.removeChild(taskItem));
+                        });
 
-      // Cargar tareas desde el servidor
-      fetch(`${backendUrl}/api/tasks`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-          return response.json();
-        })
-        .then(tasks => {
-          console.log('Tasks fetched:', tasks);
-          tasks.forEach(task => {
-            const taskItem = document.createElement('li');
-            taskItem.textContent = task.text;
+                        taskItem.appendChild(deleteButton);
+                        taskList.appendChild(taskItem);
+                    });
+                });
 
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', function() {
-              fetch(`${backendUrl}/api/tasks/${task._id}`, { method: 'DELETE' })
-                .then(() => taskList.removeChild(taskItem));
+            // Añadir nueva tarea
+            taskForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const taskText = taskInput.value;
+
+                fetch('https://todo-app-backend-jiht.onrender.com/api/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: taskText })
+                })
+                .then(response => response.json())
+                .then(task => {
+                    const taskItem = document.createElement('li');
+                    taskItem.textContent = task.text;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', function() {
+                        fetch(`https://todo-app-backend-jiht.onrender.com/api/tasks/${task._id}`, { method: 'DELETE' })
+                            .then(() => taskList.removeChild(taskItem));
+                    });
+
+                    taskItem.appendChild(deleteButton);
+                    taskList.appendChild(taskItem);
+                });
+
+                taskInput.value = '';
             });
-
-            taskItem.appendChild(deleteButton);
-            taskList.appendChild(taskItem);
-          });
-        })
-        .catch(error => console.error('Error fetching tasks:', error));
-
-      // Añadir nueva tarea
-      taskForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const taskText = taskInput.value;
-
-        fetch(`${backendUrl}/api/tasks`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ text: taskText })
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-          return response.json();
-        })
-        .then(task => {
-          console.log('Task added:', task);
-          const taskItem = document.createElement('li');
-          taskItem.textContent = task.text;
-
-          const deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.addEventListener('click', function() {
-            fetch(`${backendUrl}/api/tasks/${task._id}`, { method: 'DELETE' })
-              .then(() => taskList.removeChild(taskItem));
-          });
-
-          taskItem.appendChild(deleteButton);
-          taskList.appendChild(taskItem);
-        })
-        .catch(error => console.error('Error adding task:', error));
-
-        taskInput.value = '';
-      });
-    });
-  </script>
+        });
+    </script>
 </head>
 <body>
-  <h1>Todo App</h1>
-  <form id="task-form">
-    <input type="text" id="task-input" placeholder="Enter a task">
-    <button type="submit">Add Task</button>
-  </form>
-  <ul id="task-list"></ul>
+    <div class="container">
+        <h1>Todo App</h1>
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="Enter a task">
+            <button type="submit">Add Task</button>
+        </form>
+        <ul id="task-list"></ul>
+    </div>
 </body>
 </html>
